@@ -1,6 +1,7 @@
 # Hyper-Graphical Models for Time-Series Analysis
 
-This repository is the official implementation of [Hyper-Graphical Models for Time-Series Analysis](https://arxiv.org/abs/2030.12345). 
+This repository is the official implementation of [Hyper-Graphical Models for Time-Series Analysis]. 
+
 
 ## Requirements
 
