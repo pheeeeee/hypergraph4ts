@@ -19,20 +19,22 @@ from utils import *
 
 
 class application:
-    def __init__(self,  data, bin, n_tail,  initial=0, last=0, device = 'cpu', parallel = False, timer=False):
+    def __init__(self,  data, bin, n_tail,  initial=0, last=0, device = 'cpu', parallel = False, timer=False, print_computing_time=False):
         self.data = data
         self.n_tail = n_tail
         self.device = device
         self.parallel = parallel
         self.initial = initial
         self.last = last
+        assert timer - print_computing_time > -1, "Training time cannot be printed if timer is False."
+
         
         if self.is_list_of_sequences(data):
-            G = multig4ts(data, bin=bin, n_tail = n_tail, initial=initial, last=last, device=device, parallel=parallel,timer=timer)
+            G = multig4ts(data, bin=bin, n_tail = n_tail, initial=initial, last=last, device=device, parallel=parallel,timer=timer, print_computing_time=print_computing_time)
             self.edges = G.edges
         else:
             G = g4ts(data, bin=bin,  initial=initial, last=last, device=device, parallel=parallel, timer=timer)
-            self.edges = G.compute(n_tail=self.n_tail)
+            self.edges = G.compute(n_tail=self.n_tail, print_computing_time = print_computing_time)
 
         self.G = G
         self.bin = G.bin
@@ -111,7 +113,7 @@ class application:
         self.newnodes = newnodes
         return newnodes.astype(int)
     
-    def generate(self, n, initialnodes, how='average'):
+    def generate(self, n, initialnodes, how='average', inference_time=False):
         """
         It generates new data of length n.
         It converts a seq of nodes into real data list.
@@ -121,7 +123,10 @@ class application:
         #Now generate into continuous ones. 
         newnodes = self.newnodes
         if len(newnodes) == 0:
+            inferece_node_start = time.perf_counter()
             newnodes = self.generate_newnodes(n=n, initialnodes=initialnodes)
+            inferece_node_end = time.perf_counter()
+            inference_node_time = inferece_node_end - inferece_node_start
         gendata = np.empty(len(newnodes))
         bins = self.bin
         bins.append(self.G.M)
@@ -132,8 +137,14 @@ class application:
             for i in range(len(gendata)):
                 gendata[i] = sum((bins[int(newnodes[i])],bins[int(newnodes[i]+1)]))/2
         elif how=='uniform':
+            inference_start = time.perf_counter()
             for i in range(len(gendata)):
                 gendata[i] = random.uniform(bins[int(newnodes[i])],bins[int(newnodes[i]+1)])
+            inference_end = time.perf_counter()
+        inference_timer = inference_end - inference_start
+        inference_timer = inference_timer + inference_node_time
+        if inference_time is True:
+            print(f"Inference Time for time length {len(gendata)} is inference_timer")
         elif how=='median':
             print('You need to write code')
             #for i in range(len(gendata)):
