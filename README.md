@@ -22,7 +22,7 @@ To run the model(s) in the paper, run this command:
 python train.py --data_name 'data_name' --node None --degree None --percentage 1 --print_computing_time True --print_inference_time True --draw_plot True --l 1440
 ```
 
-Note. This only estimates <u>one</u> target time sereies. 
+Note that this only estimates single target window. 
 
 >📋 data_name should be one of the following strings: 'caiso', 'traffic', 'electricity', 'weather', 'etth1', 'ettm1', 'solar', 'wind', 'exchange'. The preprocessed data we used for experiments will be used for training. Details about the preprocessing procedure are provided in Section 7 and Appendix A.3.
 
