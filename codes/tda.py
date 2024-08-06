@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May  2 11:56:59 2024
 
-@author: piprober
-"""
 
 
 import numpy as np
@@ -412,6 +408,10 @@ def compute_persistence(edges):
 """
     
         
+        
+        
+
+
         
         
 
