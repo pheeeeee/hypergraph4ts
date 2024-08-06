@@ -29,9 +29,9 @@ Note. This only estimate one target time sereies.
 
 >📋 To print the training time for each training time window, set --print_computint_time as True.
 
->📋 If draw_plot is true, the plot like is saved as 'plot.png'
+>📋 If draw_plot is true, the plot like the below is saved as 'plot.png'
 
-<a href="url"><img src="/assets/prediction_target_plot.jpg" align="center" height="600" width="600" style="float:left; padding-right:15px" ></a>
+<a href="url"><img src="/assets/prediction_target_plot.jpg" align="center" height="600" width="800" style="float:left; padding-right:15px" ></a>
 
 
 
