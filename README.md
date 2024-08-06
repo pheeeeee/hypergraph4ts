@@ -15,13 +15,20 @@ pip install -r requirements.txt
 
 ## Training
 
-To train the model(s) in the paper, run this command:
+To train the model(s) in the paper using , run this command:
 
 ```train
-python train.py --input-data <path_to_data> --alpha 10 --beta 20
+python train.py --input-data <path_to_data> --node 10 --degree 20 --print_computing_time True --to_graph False
 ```
 
 >📋  Describe how to train the models, with example commands on how to train the models in your paper, including the full training procedure and appropriate hyperparameters.
+
+
+To change the hyperparameter such as node and degree, 
+
+```train
+python train.py --input-data <path_to_data> --node 10 --degree 20 --print_computing_time True --to_graph False
+```
 
 ## Evaluation
 
