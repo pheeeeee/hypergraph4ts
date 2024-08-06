@@ -33,16 +33,11 @@ To train the model(s) in the paper, run this command:
 ```train
 python train.py --input-data 'data_name' --node None --degree None --print_computing_time True
 ```
->📋  Input-data should be one of string \['caiso','traffic','electricity','weather','etth1','ettm1','solar','wind','exchange'] or it should be numpy array of time series data or a list of numpy arrays.
+>📋 Input data should be one of the following strings: ['caiso', 'traffic', 'electricity', 'weather', 'etth1', 'ettm1', 'solar', 'wind', 'exchange'], or it should be a NumPy array of time series data or a list of NumPy arrays. If it is one of ['caiso', 'traffic', 'electricity', 'weather', 'etth1', 'ettm1', 'solar', 'wind', 'exchange'], the preprocessed data we used for experiments will be used for training. Details about the preprocessing procedure are provided in Section 7 and Appendix A.3.
 
-If it is one of 'caiso','traffic','electricity','weather','etth1','ettm1','solar','wind','exchange', preprocessed data we used for experiments will be used for training.
+>📋 Node and degree are hyperparameters of our model. In our actual code, the node can be set as a list of bin thresholds according to the user's specifications. However, here the node parameter must be either an integer or None. If the hyperparameter node and degree are chosen to be None, it automatically uses the node and degrees we used for our experiment in the paper.
 
-
-Node and degree are hyper-parameter of our model. In our actual codes, node can be set specifically as the user wants. But for here, node parameter must be either integer or None.
-
-If the hyperparameter node and degree are chosen to be None, it automatically uses the node and degrees we used for our experiment in the paper.
-
-To print the training time for each training time window, set --print_computint_time as True.
+>📋 To print the training time for each training time window, set --print_computint_time as True.
 
 ## Evaluation
 
