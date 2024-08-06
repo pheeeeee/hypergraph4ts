@@ -41,23 +41,6 @@ Note. This only estimates <u>one</u> target time sereies.
 <a href="url"><img src="/assets/prediction_target_plot.jpg" align="center" height="600" width="800" style="float:left; padding-right:15px" ></a>
 
 
-
-
-## Evaluation
-
-To evaluate my model on ImageNet, run:
-
-```eval
-python eval.py --model-file mymodel.pth --benchmark imagenet
-```
-
->📋  Describe how to evaluate the trained models on benchmarks reported in the paper, give commands that produce the results (section below).
-
-
-## Experiments with fewer data
-
-
-
 ## Results
 
 Our model achieves the following performance on :
