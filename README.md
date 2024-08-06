@@ -41,18 +41,6 @@ Note. This only estimates <u>one</u> target time sereies.
 <a href="url"><img src="/assets/prediction_target_plot.jpg" align="center" height="600" width="800" style="float:left; padding-right:15px" ></a>
 
 
-## Results
-
-Our model achieves the following performance on :
-
-### [Image Classification on ImageNet](https://paperswithcode.com/sota/image-classification-on-imagenet)
-
-| Model name         | Top 1 Accuracy  | Top 5 Accuracy |
-| ------------------ |---------------- | -------------- |
-| My awesome model   |     85%         |      95%       |
-
->📋  Include a table of results from your paper, and link back to the leaderboard for clarity and context. If your main result is a figure, include that figure and link to the command or notebook to reproduce it. 
-
 
 ## Contributing
 
