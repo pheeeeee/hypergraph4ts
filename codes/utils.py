@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May  2 11:55:42 2024
 
-@author: piprober
-"""
+
 
 
 import numpy as np 
@@ -86,3 +83,4 @@ def is_list_of_sequences( dataset):
     
     # If all elements are sequences, return True
     return True
+
