@@ -31,7 +31,7 @@ Note. This only estimate one target time sereies.
 
 >📋 If draw_plot is true, the plot like is saved as 'plot.png'
 
-<a href="url"><img src="/assets/prediction_target_plot.jpg" align="left" height="300" width="300" style="float:left; padding-right:15px" ></a>
+<a href="url"><img src="/assets/prediction_target_plot.jpg" align="center" height="600" width="600" style="float:left; padding-right:15px" ></a>
 
 
 
