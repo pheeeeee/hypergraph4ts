@@ -104,7 +104,7 @@ def main():
     n_windows = len(train_data)
     losses = []
     for iii in range(args.repeat):
-        target_index = random.randint(0, n_windows)
+        target_index = random.randint(0, n_windows-1)
         target = prediction_data[target_index]
         lookback_data = train_data[target_index]
         
