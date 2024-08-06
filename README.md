@@ -19,7 +19,7 @@ pip install -r requirements.txt
 To run the model(s) in the paper, run this command:
 
 ```train
-python train.py --data_name 'data_name' --node 5000 --degree 10 --percentage 1 --print_computing_time True --print_inference_time True --draw_plot True --l 1440 --repeat 10
+python train.py --data_name wind --node 10000 --degree 4 --percentage 0 --print_computing_time True --print_inference_time True --draw_plot True --l 1440 --repeat 5
 ```
 
 Note that this only estimates single target window. 
