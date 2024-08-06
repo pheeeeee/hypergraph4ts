@@ -1,14 +1,3 @@
-import argparse
-import os
-import sklearn
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-import time
-import pickle
-from codes.counting import *
-from codes.application import *
-from codes.utils import *
-from codes.metric import *
-from codes.dataloader import *
 
 
 
@@ -93,6 +82,7 @@ def main():
         prediction = {args.data_name : prediction[args.data_name]}
         lookback_windows = [args.l]
         ts1data = dataloader(ts, lookback_window=lookback_windows, prediction_window=prediction)
+        ts1data.segment()
         
         #with open('datasets/data.pkl', 'rb') as file:
         #    ts1data = pickle.load(file)
@@ -100,29 +90,31 @@ def main():
     train_data = ts1data[args.data_name][args.l]['train_data']
     prediction_data = ts1data[args.data_name][args.l]['test_data']
     n_windows = len(train_data)
-    
-    target_index = random.randint(0, n_windows)
-    target = prediction_data[target_index]
-    lookback_data = train_data[target_index]
-    
-    indices = list(range(n_windows))
-    indices.remove(target_index)
-    n_train = round(args.percentage * (n_windows-1))
-    train_index = np.random.choice(indices, n_train)
-    
-    train = []
-    for i in train_index:
-        train.append(np.concatenate((train_data[i],prediction_data[i])))
-    train.append(lookback_data)
-    print('Data Loading Done.')
+    losses = []
+    for _ in range(10):
+        target_index = random.randint(0, n_windows)
+        target = prediction_data[target_index]
+        lookback_data = train_data[target_index]
+        
+        indices = list(range(n_windows))
+        indices.remove(target_index)
+        n_train = round(args.percentage * (n_windows-1))
+        train_index = np.random.choice(indices, n_train)
+        
+        train = []
+        for i in train_index:
+            train.append(np.concatenate((train_data[i],prediction_data[i])))
+        train.append(lookback_data)
+        print('Data Loading Done.')
 
-    # Call the training function with the provided arguments
-    obj = train_model(args.input_data, node=args.node, degree=args.degree, print_computing_time=args.print_computing_time)
-    lookback_window = application(lookback_data, bin=args.node, n_tail=args.degree, last=args.degree, parallel=False, timer=False)
-    generated_data = obj.generate(n=len(target), initialnodes=lookback_window.lastnodes, how='uniform', inference_time=args.print_inference_time)
+        # Call the training function with the provided arguments
+        obj = train_model(args.input_data, node=args.node, degree=args.degree, print_computing_time=args.print_computing_time)
+        lookback_window = application(lookback_data, bin=args.node, n_tail=args.degree, last=args.degree, parallel=False, timer=False)
+        generated_data = obj.generate(n=len(target), initialnodes=lookback_window.lastnodes, how='uniform', inference_time=args.print_inference_time)
 
-    loss = mean_absolute_error(generated_data, target)
-    print(f"MAE of G4TS using {args.percentage *100}% of available training data {args.data_name} with lookback window size {args.l} is {loss}.")
+        loss = mean_absolute_error(generated_data, target)
+        losses.append(loss)
+    print(f"MAE of G4TS using {args.percentage *100}% of available training data {args.data_name} with lookback window size {args.l} is {losses} (All results of 10 independent runs).")
 
     if args.draw_plot is True:
         visualize(lookback_data, target=target, prediction=generated_data, save_plot='plot.png')
@@ -131,3 +123,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
