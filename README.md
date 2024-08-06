@@ -24,13 +24,19 @@ python train.py --data_name 'data_name' --node None --degree None --percentage 1
 
 Note. This only estimates <u>one</u> target time sereies. 
 
->📋 Input data should be one of the following strings: ['caiso', 'traffic', 'electricity', 'weather', 'etth1', 'ettm1', 'solar', 'wind', 'exchange'], or it should be a NumPy array of time series data or a list of NumPy arrays. If it is one of ['caiso', 'traffic', 'electricity', 'weather', 'etth1', 'ettm1', 'solar', 'wind', 'exchange'], the preprocessed data we used for experiments will be used for training. Details about the preprocessing procedure are provided in Section 7 and Appendix A.3.
+>📋 data_name should be one of the following strings: 'caiso', 'traffic', 'electricity', 'weather', 'etth1', 'ettm1', 'solar', 'wind', 'exchange'. The preprocessed data we used for experiments will be used for training. Details about the preprocessing procedure are provided in Section 7 and Appendix A.3.
 
->📋 Node and degree are hyperparameters of our model. In our actual code, the node can be set as a list of bin thresholds according to the user's specifications. However, here the node parameter must be either an integer or None. If the hyperparameter node and degree are chosen to be None, it automatically uses the node and degrees we used for our experiment in the paper.
+>📋 node and degree are hyperparameters of our model. In our actual code, the node can be set as a list of bin thresholds according to the user's specifications. However, here the node parameter must be either an integer or None. If the hyperparameter node and degree are chosen to be None, it automatically uses the node and degrees we used for our experiment in the paper.
 
->📋 To print the training time for each training time window, set --print_computint_time as True.
+>📋 percentage : The percentage of used data for training from available time windows. (If zero, it is zero-shot learning(Only use the input lookback window to generate the target.))
 
->📋 If draw_plot is true, the plot like the below is saved as 'plot.png'
+>📋 print_computint_time :True if you want to print training time for each time window
+
+>📋 print_inference_time : True if you want to print inference time
+
+>📋 l : The lookback window size for the inference.
+
+>📋 draw_plot : If True, the plot like the below is saved as 'plot.png'
 
 <a href="url"><img src="/assets/prediction_target_plot.jpg" align="center" height="600" width="800" style="float:left; padding-right:15px" ></a>
 
