@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Thu May  2 11:54:53 2024
 
-@author: piprober
-"""
+
 
 
 import pickle
@@ -28,7 +25,7 @@ from copy import deepcopy
 
 #import hypernetx as hnx
 
-from utils import *
+from codes.utils import *
 
 import time 
 
@@ -159,8 +156,7 @@ class g4ts:
     
         initialnodes = self.nodehistory[:initial]
         self.initialnodes = initialnodes
-        
-        lastnodes = self.nodehistory[-last:]
+        lastnodes = self.nodehistory[-int(last):]
         self.lastnodes = lastnodes
         
 
@@ -236,7 +232,7 @@ class g4ts:
         duration = end_time - start_time
         if self.timer:
             if print_computing_time:
-                print(f"Training completed in {duration} seconds. Recored as .timer attr")
+                print(f"Training completed in {duration} seconds.")
             self.duration = duration
             
         if not isinstance(edges, dict):
@@ -402,16 +398,16 @@ class g4ts:
         
         
         
-        
+                
 
 class multig4ts:
-    def __init__(self, data, bin, n_tail, initial=0, last=0, device = 'cpu', parallel = True, timer=False):
+    def __init__(self, data, bin, n_tail, initial=0, last=0, device = 'cpu', parallel = True, timer=False, print_computing_time=False):
         
         assert self.is_list_of_sequences(data), "There is Only One data sequence"
         # Verify data structure
         assert isinstance(data, list), "Data should be a list"
         assert all(isinstance(arr, np.ndarray) for arr in data), "Each element of data should be a NumPy array"
-
+        assert timer - print_computing_time > -1, "We cannot print computing time if timer is False."
         self.dataset = data
         n_data = len(data)
         flattened_data = [arr.flatten() for arr in data]
@@ -437,39 +433,34 @@ class multig4ts:
         self.nodes = nodes
         
         obj = g4ts(data[0],bin=self.bin, initial=initial, last=last, device=device, parallel=parallel, fixbin=True, timer=timer)
-        if timer == True:
-            duration = obj.timer
         
         ini = [obj.initialnodes]
         la = [obj.lastnodes]
-        edges = obj.compute(n_tail=n_tail)
+        edges = obj.compute(n_tail=n_tail,print_computing_time=print_computing_time)
+        duration = 0
         for idx in range(n_data-1):
             obj = g4ts(data[idx+1],bin=self.bin, initial=initial, last=last, device=device, parallel=parallel, fixbin=True, timer=timer)
-            otheredges = obj.compute(n_tail=n_tail)
+            otheredges = obj.compute(n_tail=n_tail, print_computing_time=print_computing_time)
             ini.append(obj.initialnodes)
             la.append(obj.lastnodes)
             edges = {key: edges.get(key, 0) + otheredges.get(key, 0) for key in edges.keys() | otheredges.keys()}
             if timer == True:
-                duration += obj.timer
+                duration += obj.duration
         
         self.edges = edges
         self.initialnodes = ini
         self.lastnodes = la
         if timer == True:
-            self.timer = duration
+            self.duration = duration
     
     def is_list_of_sequences(self, dataset):
-        # Check if the dataset itself is a list
         if not isinstance(dataset, Iterable):
             return False
         
-        # Check each element in the list to confirm it's a sequence
         for sequence in dataset:
-            # Ensure the element is an iterable (list, tuple, etc.) but not string-like
             if not isinstance(sequence, (list, tuple, np.ndarray)) or isinstance(sequence, str):
                 return False
         
-        # If all elements are sequences, return True
         return True
     
     def tograph(self):
@@ -477,8 +468,8 @@ class multig4ts:
         edgenames = {}
         edgeweights = {}
         for index, name in enumerate(edges.keys()):
-            edgenames['e'+str(index)] = name  #ex. {'e1': (3,4,5)}
-            edgeweights['e'+str(index)] = edges[name] #ex. {'e1' : 3, ... }
+            edgenames['e'+str(index)] = name  
+            edgeweights['e'+str(index)] = edges[name]
                 
 
         G = hnx.Hypergraph(edgenames)
