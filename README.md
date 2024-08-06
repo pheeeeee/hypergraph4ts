@@ -13,13 +13,31 @@ pip install -r requirements.txt
 
 >📋  Describe how to set up the environment, e.g. pip/conda/docker commands, download datasets, etc...
 
+
+## Load Data
+
+To load datasets:
+
+'''load data
+
+'''
+
+This code loads the preprocessed data we used for experiments.
+
+
+
 ## Training
 
-To train the model(s) in the paper using , run this command:
+To train the model(s) in the paper, run this command:
 
 ```train
-python train.py --input-data <path_to_data> --node None --degree None --print_computing_time True
+python train.py --input-data 'data_name' --node None --degree None --print_computing_time True
 ```
+
+
+
+
+Node and degree are hyper-parameter of our model. In our actual codes, node can be set specifically as the user wants. But for here, node parameter must be either integer or None.
 
 If the hyperparameter node and degree are chosen to be None, it automatically uses the node and degrees we used for our experiment in the paper.
 
@@ -34,6 +52,11 @@ python eval.py --model-file mymodel.pth --benchmark imagenet
 ```
 
 >📋  Describe how to evaluate the trained models on benchmarks reported in the paper, give commands that produce the results (section below).
+
+
+## Experiments with fewer data
+
+
 
 ## Results
 
