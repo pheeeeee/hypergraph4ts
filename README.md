@@ -33,8 +33,9 @@ To train the model(s) in the paper, run this command:
 ```train
 python train.py --input-data 'data_name' --node None --degree None --print_computing_time True
 ```
+>📋  Input-data should be one of string \['caiso','traffic','electricity','weather','etth1','ettm1','solar','wind','exchange'] or it should be numpy array of time series data or a list of numpy arrays.
 
-
+If it is one of 'caiso','traffic','electricity','weather','etth1','ettm1','solar','wind','exchange', preprocessed data we used for experiments will be used for training.
 
 
 Node and degree are hyper-parameter of our model. In our actual codes, node can be set specifically as the user wants. But for here, node parameter must be either integer or None.
