@@ -2,9 +2,9 @@
 
 import matplotlib.pyplot as plt
 from multiprocessing import Pool
-from counting import *
-from application import *
-from utils import *
+from codes.counting import *
+from codes.application import *
+from codes.utils import *
 
 import time
 
@@ -120,3 +120,4 @@ def fun_metrictable(train_data, target, nodes, degrees, champ, metric, timer=Fal
             best_guesses = best_guesses[best_setting]
             best_setting = np.unravel_index(best_setting, metricframe.shape)
     return metricframe, best_setting, best_guesses, timer_record
+
