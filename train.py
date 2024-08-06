@@ -46,6 +46,7 @@ def visualize(lookback, target, prediction, save_plot=None):
         plt.savefig(save_plot)
     
 
+
 def main():
     # Set up argument parsing
     parser = argparse.ArgumentParser(description="Train a machine learning model.")
@@ -64,8 +65,37 @@ def main():
     print("Start loading data")
     if type(args.data_name) is string:
         assert args.data_name in ['caiso','traffic','electricity','weather','etth1','ettm1','solar','wind', 'exchange'], "Mentioned data does not exist in loaded dataset."
-        with open('datasets/data.pkl', 'rb') as file:
-            ts1data = pickle.load(file)
+        df = pd.read_csv(f'dataset/{args.data_name}/data.csv')
+            
+        if df.shape[1] == 2:
+            # Extract the second column
+            series = df.iloc[:, 1]  # Using iloc to select by position
+        elif df.shape[1] == 1:
+            # Extract the only column
+            series = df.iloc[:, 0]
+        else:
+            raise ValueError(f"Check your data.")
+        series = pd.to_numeric(series, errors='coerce')
+        
+        ts = {args.data_name : series}
+        
+        prediction = {}
+        prediction['caiso'] = 720
+        prediction['traffic'] = 168
+        prediction['electricity'] = 672
+        prediction['weather'] = 1008
+        prediction['etth1'] = 168
+        prediction['ettm1'] = 192
+        prediction['solar'] = 144
+        prediction['wind'] = 192
+        prediction['exchange'] = 14
+        
+        prediction = {args.data_name : prediction[args.data_name]}
+        lookback_windows = [args.l]
+        ts1data = dataloader(ts, lookback_window=lookback_windows, prediction_window=prediction)
+        
+        #with open('datasets/data.pkl', 'rb') as file:
+        #    ts1data = pickle.load(file)
     
     train_data = ts1data[args.data_name][args.l]['train_data']
     prediction_data = ts1data[args.data_name][args.l]['test_data']
