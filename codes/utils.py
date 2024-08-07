@@ -6,7 +6,25 @@
 
 import numpy as np 
 from collections.abc import Iterable
+from scipy.stats import boxcox
 
+
+
+def make_stationary(data, how='differencing'):
+    if how == 'differencing':
+        print(f'making data stationary using {how}')
+        data = data.diff().dropna()
+    elif how == 'second_order_differencing':
+        print(f'making data stationary using {how}')
+        data = data.diff().diff().dropna()
+    elif how == 'log':
+        print(f'making data stationary using {how}')
+        data = np.log(data)
+    elif how == 'box-cox':
+        print(f'making data stationary using {how}')
+        data, lam = boxcox(data)
+        print(f'{lam} is chosen for the lamda parameter for boxcox transform.')
+    return data
 
 
 def infinite_alphabetic():
