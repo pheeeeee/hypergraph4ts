@@ -57,8 +57,8 @@ def main():
     parser.add_argument('--print_inference_time', type=bool, required=True, help="True if you want to print inference time")
     parser.add_argument('--draw_plot', required=True, help='True if you want to visualize the plot of target data and generated data.')
     parser.add_argument('--l', type=int, required=True, help="Size of Lookback window to use. Choose among 1440, 720, 336, 192, 168, 96." )
+    parser.add_argument('--stationary', type=str, required=False, help="Make the stationary or not. Choose one of 'differencing', 'second_order_differencing', 'log' ")
     parser.add_argument('--repeat', type=int, required=True, help="This tell how many experiments to repeat independently." )
-
         
     # Parse the arguments
     args = parser.parse_args()
@@ -77,6 +77,9 @@ def main():
         else:
             raise ValueError(f"Check your data.")
         series = pd.to_numeric(series, errors='coerce')
+        
+        if args.stationary is not None:
+            series = make_stationary(series, how = args.stationary)
         
         ts = {args.data_name : series}
         
@@ -132,7 +135,10 @@ def main():
     print(f"MAE of G4TS using {args.percentage *100}% of available training data {args.data_name} with lookback window size {args.l} is {losses} (All results of {args.repeat} independent runs).")
 
 
-        
+if __name__ == "__main__":
+    main()
+
+
     
 
 if __name__ == "__main__":
