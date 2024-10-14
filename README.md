@@ -2,6 +2,7 @@
 
 This repository is the official implementation of [Hyper-Graphical Models for Time-Series Analysis]. 
 
+With linear computational complexity, it learns estimator very fast.
 
 ## Requirements
 
